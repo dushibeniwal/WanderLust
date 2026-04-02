@@ -97,6 +97,7 @@ app.use((err, req, res, next) => {
   res.render('error.ejs', { message });
 });
 
-app.listen(2020, () => {
-  console.log('listening on port 2020');
+const port = process.env.PORT || 2020;
+app.listen(port, () => {
+  console.log(`listening on port ${port}`);
 });
