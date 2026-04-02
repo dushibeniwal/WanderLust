@@ -10,7 +10,7 @@ const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const ExpressError = require('./util/ExpressError.js');
 const session = require('express-session');
-const MongoStore = require('connect-mongo').default;
+const MongoStore = require('connect-mongo');
 const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
@@ -93,8 +93,11 @@ app.all(/.*/, (req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
+  if (res.headersSent) {
+    return next(err);
+  }
   let { statusCode = 500, message = 'something went wrong' } = err;
-  res.render('error.ejs', { message });
+  res.status(statusCode).render('error.ejs', { message });
 });
 
 const port = process.env.PORT || 2020;
