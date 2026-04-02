@@ -41,7 +41,7 @@ module.exports.createListing = async (req, res, next) => {
     res.redirect(`/listings/${newListing._id}`);
   } catch (err) {
     req.flash('error', 'Something went wrong while creating the listing.');
-    res.redirect('/listings/new');
+    return res.redirect('/listings/new');
   }
 };
 
@@ -58,7 +58,7 @@ module.exports.showListing = async (req, res) => {
 
   if (!listing) {
     req.flash('error', 'Listint you are requsted for does not exist');
-    res.redirect('/listings');
+    return res.redirect('/listings');
   }
   res.render('listings/show.ejs', { listing, mapToken: process.env.MAP_TOKEN });
 };
@@ -69,7 +69,7 @@ module.exports.renderEditForm = async (req, res) => {
 
   if (!listing) {
     req.flash('error', 'listing you requested does not exist');
-    res.redirect('/listings');
+    return res.redirect('/listings');
   }
 
   let originalImageUrl = listing.image.url;
